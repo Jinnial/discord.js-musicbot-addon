@@ -135,659 +135,661 @@ exports.start = (client, options) => {
   };
 
   async function musicBotStart() {
-		if (process.version.slice(1)
-	    .split('.')[0] < 8) {
-	    console.error(new Error(`[MusicBot] node 8 or higher is needed, please update`));
-	    process.exit(1);
-	  }
+    try{
+      if (process.version.slice(1)
+        .split('.')[0] < 8) {
+        console.error(new Error(`[MusicBot] node 8 or higher is needed, please update`));
+        process.exit(1);
+      }
 
-    if (musicbot.disableLeave &&
-      musicbot.disableSkip &&
-      musicbot.disablePlay &&
-      musicbot.disableQueue &&
-      musicbot.disableHelp &&
-      musicbot.disableResume &&
-      musicbot.disablePause &&
-      musicbot.disableLoop &&
-      musicbot.disableClear &&
-      musicbot.disableNp &&
-      musicbot.disableSearch &&
-      musicbot.disableVolume) {
-      console.error(new Error(`all commands disabled`));
-      process.exit(1);
-    }
+      if (musicbot.disableLeave &&
+        musicbot.disableSkip &&
+        musicbot.disablePlay &&
+        musicbot.disableQueue &&
+        musicbot.disableHelp &&
+        musicbot.disableResume &&
+        musicbot.disablePause &&
+        musicbot.disableLoop &&
+        musicbot.disableClear &&
+        musicbot.disableNp &&
+        musicbot.disableSearch &&
+        musicbot.disableVolume) {
+        console.error(new Error(`all commands disabled`));
+        process.exit(1);
+      }
 
-    if (typeof musicbot.embedColor !== 'object' && typeof musicbot.embedColor !== 'number' && typeof musicbot.embedColor !== 'string') {
-      console.error(new TypeError(`embedColor must be an object (array), number, or a string`));
-      process.exit(1);
-    }
+      if (typeof musicbot.embedColor !== 'object' && typeof musicbot.embedColor !== 'number' && typeof musicbot.embedColor !== 'string') {
+        console.error(new TypeError(`embedColor must be an object (array), number, or a string`));
+        process.exit(1);
+      }
 
-    if (typeof musicbot.botAdmins !== 'object') {
-      console.error(new TypeError(`botAdmins must be an object (array)`));
-      process.exit(1);
-    }
-    if (typeof musicbot.clearOnLeave !== 'boolean') {
-      console.error(new TypeError(`clearOnLeave must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.checkQueues !== 'boolean') {
-      console.error(new TypeError(`checkQueues must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.dateLocal !== 'string') {
-      console.error(new TypeError(`dateLocal must be a string`));
-      process.exit(1);
-    }
-    if (typeof musicbot.advancedMode !== 'object') {
-      console.error(new TypeError(`advancedMode must be an object`));
-      process.exit(1);
-    }
-    if (musicbot.advancedMode.enabled && typeof musicbot.advancedMode.enabled !== 'boolean') {
-      console.error(new TypeError(`advancedMode.enabled must be a boolean`));
-      process.exit(1);
-    }
-    if (musicbot.advancedMode.multiPrefix && typeof musicbot.advancedMode.multiPrefix !== 'boolean') {
-      console.error(new TypeError(`advancedMode.multiPrefix must be a boolean`));
-      process.exit(1);
-    }
-    if (musicbot.advancedMode.serverPrefixs && typeof musicbot.advancedMode.serverPrefixs !== 'object') {
-      console.error(new TypeError(`advancedMode.serverPrefixs must be an object`));
-      process.exit(1);
-    }
+      if (typeof musicbot.botAdmins !== 'object') {
+        console.error(new TypeError(`botAdmins must be an object (array)`));
+        process.exit(1);
+      }
+      if (typeof musicbot.clearOnLeave !== 'boolean') {
+        console.error(new TypeError(`clearOnLeave must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.checkQueues !== 'boolean') {
+        console.error(new TypeError(`checkQueues must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.dateLocal !== 'string') {
+        console.error(new TypeError(`dateLocal must be a string`));
+        process.exit(1);
+      }
+      if (typeof musicbot.advancedMode !== 'object') {
+        console.error(new TypeError(`advancedMode must be an object`));
+        process.exit(1);
+      }
+      if (musicbot.advancedMode.enabled && typeof musicbot.advancedMode.enabled !== 'boolean') {
+        console.error(new TypeError(`advancedMode.enabled must be a boolean`));
+        process.exit(1);
+      }
+      if (musicbot.advancedMode.multiPrefix && typeof musicbot.advancedMode.multiPrefix !== 'boolean') {
+        console.error(new TypeError(`advancedMode.multiPrefix must be a boolean`));
+        process.exit(1);
+      }
+      if (musicbot.advancedMode.serverPrefixs && typeof musicbot.advancedMode.serverPrefixs !== 'object') {
+        console.error(new TypeError(`advancedMode.serverPrefixs must be an object`));
+        process.exit(1);
+      }
 
-    if (typeof musicbot.thumbnailType !== 'string') {
-      console.error(new TypeError(`thumbnailType must be a string`));
-      process.exit(1);
-    };
-    if (!musicbot.thumbnailType.match(/default|medium|high/)) {
-      console.error(new Error(`thumbnailType must be one of the following: default, medium, high`));
-      process.exit(1);
-    };
-    if (typeof musicbot.helpHelp !== 'string') {
-      console.error(new TypeError(`helpHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.helpAlt !== 'object') {
-      console.error(new TypeError(`helpAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.playHelp !== 'string') {
-      console.error(new TypeError(`playHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.playAlt !== 'object') {
-      console.error(new TypeError(`playAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.queueHelp !== 'string') {
-      console.error(new TypeError(`queueHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.queueAlt !== 'object') {
-      console.error(new TypeError(`queueAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.pauseHelp !== 'string') {
-      console.error(new TypeError(`pauseHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.pauseAlt !== 'object') {
-      console.error(new TypeError(`pauseAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.resumeHelp !== 'string') {
-      console.error(new TypeError(`resumeHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.resumeAlt !== 'object') {
-      console.error(new TypeError(`resumeAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.volumeHelp !== 'string') {
-      console.error(new TypeError(`volumeHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.volumeAlt !== 'object') {
-      console.error(new TypeError(`volumeAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.leaveHelp !== 'string') {
-      console.error(new TypeError(`leaveHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.leaveAlt !== 'object') {
-      console.error(new TypeError(`leaveAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.clearHelp !== 'string') {
-      console.error(new TypeError(`clearHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.clearAlt !== 'object') {
-      console.error(new TypeError(`clearAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.loopHelp !== 'string') {
-      console.error(new TypeError(`loopHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.loopAlt !== 'object') {
-      console.error(new TypeError(`loopAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.npHelp !== 'string') {
-      console.error(new TypeError(`npHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.npAlt !== 'object') {
-      console.error(new TypeError(`npAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.ownerHelp !== 'string') {
-      console.error(new TypeError(`ownerHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.ownerAlt !== 'object') {
-      console.error(new TypeError(`ownerAlt must be an array`));
-      process.exit(1);
-    };
-    if (typeof musicbot.skipHelp !== 'string') {
-      console.error(new TypeError(`skipHelp must be a string`))
-      process.exit(1);
-    };
-    if (typeof musicbot.skipAlt !== 'object') {
-      console.error(new TypeError(`skipAlt must be an array`));
-      process.exit(1);
-    };
-    if (!musicbot.youtubeKey) {
-      console.error(new Error(`youtubeKey is required but missing`));
-      process.exit(1);
-    };
-    if (musicbot.youtubeKey && typeof musicbot.youtubeKey !== 'string') {
-      console.error(new TypeError(`youtubeKey must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.disableHelp !== 'boolean') {
-      console.error(new TypeError(`disableHelp must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disablePlay !== 'boolean') {
-      console.error(new TypeError(`disablePlay must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableSkip !== 'boolean') {
-      console.error(new TypeError(`disableSkip must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableQueue !== 'boolean') {
-      console.error(new TypeError(`disableQueue must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disablePause !== 'boolean') {
-      console.error(new TypeError(`disablePause must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableResume !== 'boolean') {
-      console.error(new TypeError(`disableResume must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableLeave !== 'boolean') {
-      console.error(new TypeError(`disableLeave must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableClear !== 'boolean') {
-      console.error(new TypeError(`disableClear must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableLoop !== 'boolean') {
-      console.error(new TypeError(`disableLoop must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableNp !== 'boolean') {
-      console.error(new TypeError(`disableNp must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableOwnerCmd !== 'boolean') {
-      console.error(new TypeError(`disableOwnerCmd must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.ownerCmd !== 'string') {
-      console.error(new TypeError(`ownerCmd must be a string`));
-      process.exit(1);
-    }
-    if (typeof musicbot.ownerOverMember !== 'boolean') {
-      console.error(new TypeError(`ownerOverMember must be a boolean`));
-      process.exit(1);
-    };
-    if (musicbot.ownerOverMember && typeof musicbot.botOwner !== 'string') {
-      console.error(new TypeError(`botOwner must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.botPrefix !== 'string') {
-      console.error(new TypeError(`prefix must be a string`));
-      process.exit(1);
-    };
-    if (musicbot.botPrefix.length < 1 || musicbot.botPrefix.length > 10) {
-      console.error(new RangeError(`prefix length must be between 1 and 10`));
-      process.exit(1);
-    };
-    if (typeof musicbot.global !== 'boolean') {
-      console.error(new TypeError(`global must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.maxQueueSize !== 'number') {
-      console.error(new TypeError(`maxQueueSize must be a number`));
-      process.exit(1);
-    };
-    if (!Number.isInteger(musicbot.maxQueueSize)) {
-      console.error(new TypeError(`maxQueueSize must be an integer`));
-      process.exit(1);
-    };
-    if (typeof musicbot.defVolume !== 'number') {
-      console.error(new TypeError(`defaultVolume must be a number`));
-      process.exit(1);
-    };
-    if (!Number.isInteger(musicbot.defVolume) || musicbot.defVolume < 1 || musicbot.defVolume > 200) {
-      console.error(new TypeError(`defaultVolume must be an integer between 1 and 200`));
-      process.exit(1);
-    };
-    if (typeof musicbot.anyoneCanSkip !== 'boolean') {
-      console.error(new TypeError(`anyoneCanSkip must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.clearInvoker !== 'boolean') {
-      console.error(new TypeError(`clearInvoker must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.enableAliveMessage !== 'boolean') {
-      console.error(new TypeError(`enableAliveMessage must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.aliveMessage !== 'string') {
-      console.error(new TypeError(`aliveMessage must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.aliveMessageTime !== 'number') {
-      console.error(new TypeError(`aliveMessageTime must be a number`));
-      process.exit(1);
-    };
-    if (typeof musicbot.helpCmd !== 'string') {
-      console.error(new TypeError(`helpCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.playCmd !== 'string') {
-      console.error(new TypeError(`playCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.searchCmd !== 'string') {
-      console.error(new TypeError(`searchCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.disableSearch !== 'boolean') {
-      console.error(new TypeError(`disableSearch must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.skipCmd !== 'string') {
-      console.error(new TypeError(`skipCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.queueCmd !== 'string') {
-      console.error(new TypeError(`queueCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.pauseCmd !== 'string') {
-      console.error(new TypeError(`pauseCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.npCmd !== 'string') {
-      console.error(new TypeError(`npCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.resumeCmd !== 'string') {
-      console.error(new TypeError(`resumeCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.volumeCmd !== 'string') {
-      console.error(new TypeError(`volumeCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.leaveCmd !== 'string') {
-      console.error(new TypeError(`leaveCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.clearCmd !== 'string') {
-      console.error(new TypeError(`clearCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.loopCmd !== 'string') {
-      console.error(new TypeError(`loopCmd must be a string`));
-      process.exit(1);
-    };
-    if (typeof musicbot.enableQueueStat !== 'boolean') {
-      console.error(new TypeError(`enableQueueStat must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.anyoneCanAdjust !== 'boolean') {
-      console.error(new TypeError(`anyoneCanAdjust must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.logging !== 'boolean') {
-      console.error(new TypeError(`logging must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.requesterName !== 'boolean') {
-      console.error(new TypeError(`requesterName must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.inlineEmbeds !== 'boolean') {
-      console.error(new TypeError(`inlineEmbeds must be a boolean`));
-      process.exit(1);
-    };
-    if (typeof musicbot.joinCmd !== "string") {
-      console.error(new TypeError(`joinCmd must be a string`));
-      process.exit(1);
-    }
-    if (typeof musicbot.disableJoin !== "boolean") {
-      console.error(new TypeError(`disableJoin must be a boolean`));
-      process.exit(1);
-    }
-    if (typeof musicbot.joinAlt !== "object") {
-      console.error(new TypeError(`joinAlt must be an object (array)`));
-      process.exit(1);
-    }
-    if (typeof musicbot.joinHelp !== "string") {
-      console.error(new TypeError(`joinHelp must be a string`));
-      process.exit(1);
-    }
-    if (musicbot.global && musicbot.maxQueueSize < 50) console.warn(`global queues are enabled while maxQueueSize is below 50! Recommended to use a higher size.`);
-
-    // Set those commands, baby.
-    try {
-      if (!musicbot.commands.has(musicbot.helpCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.helpCmd} command.`);
-        const help_props = {
-          name: musicbot.helpCmd,
-          usage: `${musicbot.botPrefix}${musicbot.helpCmd} [command]`,
-          disabled: musicbot.disableHelp,
-          help: musicbot.helpHelp,
-          aliases: musicbot.helpAlt,
-          admin: false,
-          run: "musichelp"
-        };
-        musicbot.commands.set(musicbot.helpCmd, help_props);
-
-        if (musicbot.helpAlt.length > 0) {
-          musicbot.helpAlt.forEach(alt => {
-            musicbot.aliases.set(alt, help_props);
-          });
-        };
-
+      if (typeof musicbot.thumbnailType !== 'string') {
+        console.error(new TypeError(`thumbnailType must be a string`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.searchCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.searchCmd} command.`);
-        const search_props = {
-          name: musicbot.searchCmd,
-          usage: `${musicbot.botPrefix}${musicbot.searchCmd} <query>`,
-          disabled: musicbot.disableSearch,
-          help: musicbot.searchHelp,
-          aliases: musicbot.searchAlt,
-          admin: false,
-          run: "search"
-        };
-        musicbot.commands.set(musicbot.searchCmd, search_props);
-
-        if (musicbot.searchAlt.length > 0) {
-          musicbot.searchAlt.forEach(alt => {
-            musicbot.aliases.set(alt, search_props);
-          });
-        };
-
+      if (!musicbot.thumbnailType.match(/default|medium|high/)) {
+        console.error(new Error(`thumbnailType must be one of the following: default, medium, high`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.playCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.playCmd} command.`);
-        const play_props = {
-          name: musicbot.playCmd,
-          usage: `${musicbot.botPrefix}${musicbot.playCmd} <song to queue>`,
-          disabled: musicbot.disablePlay,
-          help: musicbot.playHelp,
-          aliases: musicbot.playAlt,
-          admin: false,
-          run: "play"
-        };
-        musicbot.commands.set(musicbot.playCmd, play_props);
-
-        if (musicbot.playAlt.length > 0) {
-          musicbot.playAlt.forEach(alt => {
-            musicbot.aliases.set(alt, play_props);
-          });
-        };
-
+      if (typeof musicbot.helpHelp !== 'string') {
+        console.error(new TypeError(`helpHelp must be a string`))
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.skipCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.skipCmd} command.`);
-        const skip_props = {
-          name: musicbot.skipCmd,
-          usage: `${musicbot.botPrefix}${musicbot.skipCmd} [numberOfSongs]`,
-          disabled: musicbot.disableSkip,
-          help: musicbot.skipHelp,
-          aliases: musicbot.skipAlt,
-          admin: true,
-          run: "skip"
-        };
-        musicbot.commands.set(musicbot.skipCmd, skip_props);
-
-        if (musicbot.skipAlt.length > 0) {
-          musicbot.skipAlt.forEach(alt => {
-            musicbot.aliases.set(alt, skip_props);
-          });
-        };
-
+      if (typeof musicbot.helpAlt !== 'object') {
+        console.error(new TypeError(`helpAlt must be an array`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.queueCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.queueCmd} command.`);
-        const queue_props = {
-          name: musicbot.queueCmd,
-          usage: `${musicbot.botPrefix}${musicbot.queueCmd} [songNumber]`,
-          disabled: musicbot.disableQueue,
-          help: musicbot.queueHelp,
-          aliases: musicbot.queueAlt,
-          admin: false,
-          run: "queue"
-        };
-        musicbot.commands.set(musicbot.queueCmd, queue_props);
-
-        if (musicbot.queueAlt.length > 0) {
-          musicbot.queueAlt.forEach(alt => {
-            musicbot.aliases.set(alt, queue_props);
-          });
-        };
-
+      if (typeof musicbot.playHelp !== 'string') {
+        console.error(new TypeError(`playHelp must be a string`))
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.pauseCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.pauseCmd} command.`);
-        const pause_props = {
-          name: musicbot.pauseCmd,
-          usage: null,
-          disabled: musicbot.disablePause,
-          help: musicbot.pauseHelp,
-          aliases: musicbot.pauseAlt,
-          admin: false,
-          run: "pause"
-        };
-        musicbot.commands.set(musicbot.pauseCmd, pause_props);
-
-        if (musicbot.pauseAlt.length > 0) {
-          musicbot.pauseAlt.forEach(alt => {
-            musicbot.aliases.set(alt, pause_props);
-          });
-        };
-
+      if (typeof musicbot.playAlt !== 'object') {
+        console.error(new TypeError(`playAlt must be an array`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.resumeCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.resumeCmd} command.`);
-        const resume_props = {
-          name: musicbot.resumeCmd,
-          usage: null,
-          disabled: musicbot.disableResume,
-          help: musicbot.resumeHelp,
-          aliases: musicbot.resumeAlt,
-          admin: false,
-          run: "resume"
-        };
-        musicbot.commands.set(musicbot.resumeCmd, resume_props);
-
-        if (musicbot.resumeAlt.length > 0) {
-          musicbot.resumeAlt.forEach(alt => {
-            musicbot.aliases.set(alt, resume_props);
-          });
-        };
-
+      if (typeof musicbot.queueHelp !== 'string') {
+        console.error(new TypeError(`queueHelp must be a string`))
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.volumeCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.volumeCmd} command.`);
-        const volume_props = {
-          name: musicbot.volumeCmd,
-          usage: `${musicbot.botPrefix}${musicbot.volumeCmd} <1 - 200>`,
-          disabled: musicbot.disableVolume,
-          help: musicbot.volumeHelp,
-          aliases: musicbot.volumeAlt,
-          admin: false,
-          run: "volume"
-        };
-        musicbot.commands.set(musicbot.volumeCmd, volume_props);
-
-        if (musicbot.volumeAlt.length > 0) {
-          musicbot.volumeAlt.forEach(alt => {
-            musicbot.aliases.set(alt, volume_props);
-          });
-        };
-
+      if (typeof musicbot.queueAlt !== 'object') {
+        console.error(new TypeError(`queueAlt must be an array`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.clearCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.clearCmd} command.`);
-        const clear_props = {
-          name: musicbot.clearCmd,
-          usage: null,
-          disabled: musicbot.disableClear,
-          help: musicbot.clearHelp,
-          aliases: musicbot.clearAlt,
-          admin: false,
-          run: "clearqueue"
-        };
-        musicbot.commands.set(musicbot.clearCmd, clear_props);
-
-        if (musicbot.clearAlt.length > 0) {
-          musicbot.clearAlt.forEach(alt => {
-            musicbot.aliases.set(alt, clear_props);
-          });
-        };
-
+      if (typeof musicbot.pauseHelp !== 'string') {
+        console.error(new TypeError(`pauseHelp must be a string`))
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.npCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.npCmd} command.`);
-        const np_props = {
-          name: musicbot.npCmd,
-          usage: null,
-          disabled: musicbot.disableNp,
-          help: musicbot.npHelp,
-          aliases: musicbot.npAlt,
-          admin: false,
-          run: "np"
-        };
-        musicbot.commands.set(musicbot.npCmd, np_props);
-
-        if (musicbot.npAlt.length > 0) {
-          musicbot.npAlt.forEach(alt => {
-            musicbot.aliases.set(alt, np_props);
-          });
-        };
-
+      if (typeof musicbot.pauseAlt !== 'object') {
+        console.error(new TypeError(`pauseAlt must be an array`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.leaveCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.leaveCmd} command.`);
-        const leave_props = {
-          name: musicbot.leaveCmd,
-          usage: null,
-          disabled: musicbot.disableLeave,
-          help: musicbot.leaveHelp,
-          aliases: musicbot.leaveAlt,
-          admin: false,
-          run: "leave"
-        };
-        musicbot.commands.set(musicbot.leaveCmd, leave_props);
-
-        if (musicbot.leaveAlt.length > 0) {
-          musicbot.leaveAlt.forEach(alt => {
-            musicbot.aliases.set(alt, leave_props);
-          });
-        };
-
+      if (typeof musicbot.resumeHelp !== 'string') {
+        console.error(new TypeError(`resumeHelp must be a string`))
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.loopCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.loopCmd} command.`);
-        const loop_props = {
-          name: musicbot.loopCmd,
-          usage: null,
-          disabled: musicbot.disableLoop,
-          help: musicbot.loopHelp,
-          aliases: musicbot.loopAlt,
-          admin: false,
-          run: "loop"
-        };
-        musicbot.commands.set(musicbot.loopCmd, loop_props);
-
-        if (musicbot.loopAlt.length > 0) {
-          musicbot.loopAlt.forEach(alt => {
-            musicbot.aliases.set(alt, loop_props);
-          });
-        };
-
+      if (typeof musicbot.resumeAlt !== 'object') {
+        console.error(new TypeError(`resumeAlt must be an array`));
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.setCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.setCmd} command.`);
-        const set_props = {
-          name: musicbot.setCmd,
-          usage: `${musicbot.botPrefix}${musicbot.setCmd} <setting>`,
-          disabled: musicbot.disableSet,
-          help: musicbot.setHelp,
-          aliases: musicbot.setAlt,
-          admin: false,
-          run: "set"
-        };
-        musicbot.commands.set(musicbot.setCmd, set_props);
-
-        if (musicbot.setAlt.length > 0) {
-          musicbot.setAlt.forEach(alt => {
-            musicbot.aliases.set(alt, set_props);
-          });
-        };
-
+      if (typeof musicbot.volumeHelp !== 'string') {
+        console.error(new TypeError(`volumeHelp must be a string`))
+        process.exit(1);
       };
-      if (!musicbot.commands.has(musicbot.joinCmd)) {
-        if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.joinCmd} command.`);
-        const join_props = {
-          name: musicbot.joinCmd,
-          usage: `${musicbot.botPrefix}${musicbot.joinCmd}`,
-          disabled: musicbot.disableJoin,
-          help: musicbot.joinHelp,
-          aliases: musicbot.joinAlt,
-          admin: false,
-          run: "join"
-        };
-        musicbot.commands.set(musicbot.joinCmd, join_props);
-
-        if (musicbot.joinAlt.length > 0) {
-          musicbot.setAlt.forEach(alt => {
-            musicbot.aliases.set(alt, join_props);
-          });
-        };
-
+      if (typeof musicbot.volumeAlt !== 'object') {
+        console.error(new TypeError(`volumeAlt must be an array`));
+        process.exit(1);
       };
-    } catch (e) {
-      console.error(e.stack);
-      process.exit(1);
-    };
-  };
+      if (typeof musicbot.leaveHelp !== 'string') {
+        console.error(new TypeError(`leaveHelp must be a string`))
+        process.exit(1);
+      };
+      if (typeof musicbot.leaveAlt !== 'object') {
+        console.error(new TypeError(`leaveAlt must be an array`));
+        process.exit(1);
+      };
+      if (typeof musicbot.clearHelp !== 'string') {
+        console.error(new TypeError(`clearHelp must be a string`))
+        process.exit(1);
+      };
+      if (typeof musicbot.clearAlt !== 'object') {
+        console.error(new TypeError(`clearAlt must be an array`));
+        process.exit(1);
+      };
+      if (typeof musicbot.loopHelp !== 'string') {
+        console.error(new TypeError(`loopHelp must be a string`))
+        process.exit(1);
+      };
+      if (typeof musicbot.loopAlt !== 'object') {
+        console.error(new TypeError(`loopAlt must be an array`));
+        process.exit(1);
+      };
+      if (typeof musicbot.npHelp !== 'string') {
+        console.error(new TypeError(`npHelp must be a string`))
+        process.exit(1);
+      };
+      if (typeof musicbot.npAlt !== 'object') {
+        console.error(new TypeError(`npAlt must be an array`));
+        process.exit(1);
+      };
+      if (typeof musicbot.ownerHelp !== 'string') {
+        console.error(new TypeError(`ownerHelp must be a string`))
+        process.exit(1);
+      };
+      if (typeof musicbot.ownerAlt !== 'object') {
+        console.error(new TypeError(`ownerAlt must be an array`));
+        process.exit(1);
+      };
+      if (typeof musicbot.skipHelp !== 'string') {
+        console.error(new TypeError(`skipHelp must be a string`))
+        process.exit(1);
+      };
+      if (typeof musicbot.skipAlt !== 'object') {
+        console.error(new TypeError(`skipAlt must be an array`));
+        process.exit(1);
+      };
+      if (!musicbot.youtubeKey) {
+        console.error(new Error(`youtubeKey is required but missing`));
+        process.exit(1);
+      };
+      if (musicbot.youtubeKey && typeof musicbot.youtubeKey !== 'string') {
+        console.error(new TypeError(`youtubeKey must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.disableHelp !== 'boolean') {
+        console.error(new TypeError(`disableHelp must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disablePlay !== 'boolean') {
+        console.error(new TypeError(`disablePlay must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableSkip !== 'boolean') {
+        console.error(new TypeError(`disableSkip must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableQueue !== 'boolean') {
+        console.error(new TypeError(`disableQueue must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disablePause !== 'boolean') {
+        console.error(new TypeError(`disablePause must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableResume !== 'boolean') {
+        console.error(new TypeError(`disableResume must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableLeave !== 'boolean') {
+        console.error(new TypeError(`disableLeave must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableClear !== 'boolean') {
+        console.error(new TypeError(`disableClear must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableLoop !== 'boolean') {
+        console.error(new TypeError(`disableLoop must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableNp !== 'boolean') {
+        console.error(new TypeError(`disableNp must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableOwnerCmd !== 'boolean') {
+        console.error(new TypeError(`disableOwnerCmd must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.ownerCmd !== 'string') {
+        console.error(new TypeError(`ownerCmd must be a string`));
+        process.exit(1);
+      }
+      if (typeof musicbot.ownerOverMember !== 'boolean') {
+        console.error(new TypeError(`ownerOverMember must be a boolean`));
+        process.exit(1);
+      };
+      if (musicbot.ownerOverMember && typeof musicbot.botOwner !== 'string') {
+        console.error(new TypeError(`botOwner must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.botPrefix !== 'string') {
+        console.error(new TypeError(`prefix must be a string`));
+        process.exit(1);
+      };
+      if (musicbot.botPrefix.length < 1 || musicbot.botPrefix.length > 10) {
+        console.error(new RangeError(`prefix length must be between 1 and 10`));
+        process.exit(1);
+      };
+      if (typeof musicbot.global !== 'boolean') {
+        console.error(new TypeError(`global must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.maxQueueSize !== 'number') {
+        console.error(new TypeError(`maxQueueSize must be a number`));
+        process.exit(1);
+      };
+      if (!Number.isInteger(musicbot.maxQueueSize)) {
+        console.error(new TypeError(`maxQueueSize must be an integer`));
+        process.exit(1);
+      };
+      if (typeof musicbot.defVolume !== 'number') {
+        console.error(new TypeError(`defaultVolume must be a number`));
+        process.exit(1);
+      };
+      if (!Number.isInteger(musicbot.defVolume) || musicbot.defVolume < 1 || musicbot.defVolume > 200) {
+        console.error(new TypeError(`defaultVolume must be an integer between 1 and 200`));
+        process.exit(1);
+      };
+      if (typeof musicbot.anyoneCanSkip !== 'boolean') {
+        console.error(new TypeError(`anyoneCanSkip must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.clearInvoker !== 'boolean') {
+        console.error(new TypeError(`clearInvoker must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.enableAliveMessage !== 'boolean') {
+        console.error(new TypeError(`enableAliveMessage must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.aliveMessage !== 'string') {
+        console.error(new TypeError(`aliveMessage must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.aliveMessageTime !== 'number') {
+        console.error(new TypeError(`aliveMessageTime must be a number`));
+        process.exit(1);
+      };
+      if (typeof musicbot.helpCmd !== 'string') {
+        console.error(new TypeError(`helpCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.playCmd !== 'string') {
+        console.error(new TypeError(`playCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.searchCmd !== 'string') {
+        console.error(new TypeError(`searchCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.disableSearch !== 'boolean') {
+        console.error(new TypeError(`disableSearch must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.skipCmd !== 'string') {
+        console.error(new TypeError(`skipCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.queueCmd !== 'string') {
+        console.error(new TypeError(`queueCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.pauseCmd !== 'string') {
+        console.error(new TypeError(`pauseCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.npCmd !== 'string') {
+        console.error(new TypeError(`npCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.resumeCmd !== 'string') {
+        console.error(new TypeError(`resumeCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.volumeCmd !== 'string') {
+        console.error(new TypeError(`volumeCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.leaveCmd !== 'string') {
+        console.error(new TypeError(`leaveCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.clearCmd !== 'string') {
+        console.error(new TypeError(`clearCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.loopCmd !== 'string') {
+        console.error(new TypeError(`loopCmd must be a string`));
+        process.exit(1);
+      };
+      if (typeof musicbot.enableQueueStat !== 'boolean') {
+        console.error(new TypeError(`enableQueueStat must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.anyoneCanAdjust !== 'boolean') {
+        console.error(new TypeError(`anyoneCanAdjust must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.logging !== 'boolean') {
+        console.error(new TypeError(`logging must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.requesterName !== 'boolean') {
+        console.error(new TypeError(`requesterName must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.inlineEmbeds !== 'boolean') {
+        console.error(new TypeError(`inlineEmbeds must be a boolean`));
+        process.exit(1);
+      };
+      if (typeof musicbot.joinCmd !== "string") {
+        console.error(new TypeError(`joinCmd must be a string`));
+        process.exit(1);
+      }
+      if (typeof musicbot.disableJoin !== "boolean") {
+        console.error(new TypeError(`disableJoin must be a boolean`));
+        process.exit(1);
+      }
+      if (typeof musicbot.joinAlt !== "object") {
+        console.error(new TypeError(`joinAlt must be an object (array)`));
+        process.exit(1);
+      }
+      if (typeof musicbot.joinHelp !== "string") {
+        console.error(new TypeError(`joinHelp must be a string`));
+        process.exit(1);
+      }
+      if (musicbot.global && musicbot.maxQueueSize < 50) console.warn(`global queues are enabled while maxQueueSize is below 50! Recommended to use a higher size.`);
+
+      // Set those commands, baby.
+      try {
+        if (!musicbot.commands.has(musicbot.helpCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.helpCmd} command.`);
+          const help_props = {
+            name: musicbot.helpCmd,
+            usage: `${musicbot.botPrefix}${musicbot.helpCmd} [command]`,
+            disabled: musicbot.disableHelp,
+            help: musicbot.helpHelp,
+            aliases: musicbot.helpAlt,
+            admin: false,
+            run: "musichelp"
+          };
+          musicbot.commands.set(musicbot.helpCmd, help_props);
+
+          if (musicbot.helpAlt.length > 0) {
+            musicbot.helpAlt.forEach(alt => {
+              musicbot.aliases.set(alt, help_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.searchCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.searchCmd} command.`);
+          const search_props = {
+            name: musicbot.searchCmd,
+            usage: `${musicbot.botPrefix}${musicbot.searchCmd} <query>`,
+            disabled: musicbot.disableSearch,
+            help: musicbot.searchHelp,
+            aliases: musicbot.searchAlt,
+            admin: false,
+            run: "search"
+          };
+          musicbot.commands.set(musicbot.searchCmd, search_props);
+
+          if (musicbot.searchAlt.length > 0) {
+            musicbot.searchAlt.forEach(alt => {
+              musicbot.aliases.set(alt, search_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.playCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.playCmd} command.`);
+          const play_props = {
+            name: musicbot.playCmd,
+            usage: `${musicbot.botPrefix}${musicbot.playCmd} <song to queue>`,
+            disabled: musicbot.disablePlay,
+            help: musicbot.playHelp,
+            aliases: musicbot.playAlt,
+            admin: false,
+            run: "play"
+          };
+          musicbot.commands.set(musicbot.playCmd, play_props);
+
+          if (musicbot.playAlt.length > 0) {
+            musicbot.playAlt.forEach(alt => {
+              musicbot.aliases.set(alt, play_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.skipCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.skipCmd} command.`);
+          const skip_props = {
+            name: musicbot.skipCmd,
+            usage: `${musicbot.botPrefix}${musicbot.skipCmd} [numberOfSongs]`,
+            disabled: musicbot.disableSkip,
+            help: musicbot.skipHelp,
+            aliases: musicbot.skipAlt,
+            admin: true,
+            run: "skip"
+          };
+          musicbot.commands.set(musicbot.skipCmd, skip_props);
+
+          if (musicbot.skipAlt.length > 0) {
+            musicbot.skipAlt.forEach(alt => {
+              musicbot.aliases.set(alt, skip_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.queueCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.queueCmd} command.`);
+          const queue_props = {
+            name: musicbot.queueCmd,
+            usage: `${musicbot.botPrefix}${musicbot.queueCmd} [songNumber]`,
+            disabled: musicbot.disableQueue,
+            help: musicbot.queueHelp,
+            aliases: musicbot.queueAlt,
+            admin: false,
+            run: "queue"
+          };
+          musicbot.commands.set(musicbot.queueCmd, queue_props);
+
+          if (musicbot.queueAlt.length > 0) {
+            musicbot.queueAlt.forEach(alt => {
+              musicbot.aliases.set(alt, queue_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.pauseCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.pauseCmd} command.`);
+          const pause_props = {
+            name: musicbot.pauseCmd,
+            usage: null,
+            disabled: musicbot.disablePause,
+            help: musicbot.pauseHelp,
+            aliases: musicbot.pauseAlt,
+            admin: false,
+            run: "pause"
+          };
+          musicbot.commands.set(musicbot.pauseCmd, pause_props);
+
+          if (musicbot.pauseAlt.length > 0) {
+            musicbot.pauseAlt.forEach(alt => {
+              musicbot.aliases.set(alt, pause_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.resumeCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.resumeCmd} command.`);
+          const resume_props = {
+            name: musicbot.resumeCmd,
+            usage: null,
+            disabled: musicbot.disableResume,
+            help: musicbot.resumeHelp,
+            aliases: musicbot.resumeAlt,
+            admin: false,
+            run: "resume"
+          };
+          musicbot.commands.set(musicbot.resumeCmd, resume_props);
+
+          if (musicbot.resumeAlt.length > 0) {
+            musicbot.resumeAlt.forEach(alt => {
+              musicbot.aliases.set(alt, resume_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.volumeCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.volumeCmd} command.`);
+          const volume_props = {
+            name: musicbot.volumeCmd,
+            usage: `${musicbot.botPrefix}${musicbot.volumeCmd} <1 - 200>`,
+            disabled: musicbot.disableVolume,
+            help: musicbot.volumeHelp,
+            aliases: musicbot.volumeAlt,
+            admin: false,
+            run: "volume"
+          };
+          musicbot.commands.set(musicbot.volumeCmd, volume_props);
+
+          if (musicbot.volumeAlt.length > 0) {
+            musicbot.volumeAlt.forEach(alt => {
+              musicbot.aliases.set(alt, volume_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.clearCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.clearCmd} command.`);
+          const clear_props = {
+            name: musicbot.clearCmd,
+            usage: null,
+            disabled: musicbot.disableClear,
+            help: musicbot.clearHelp,
+            aliases: musicbot.clearAlt,
+            admin: false,
+            run: "clearqueue"
+          };
+          musicbot.commands.set(musicbot.clearCmd, clear_props);
+
+          if (musicbot.clearAlt.length > 0) {
+            musicbot.clearAlt.forEach(alt => {
+              musicbot.aliases.set(alt, clear_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.npCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.npCmd} command.`);
+          const np_props = {
+            name: musicbot.npCmd,
+            usage: null,
+            disabled: musicbot.disableNp,
+            help: musicbot.npHelp,
+            aliases: musicbot.npAlt,
+            admin: false,
+            run: "np"
+          };
+          musicbot.commands.set(musicbot.npCmd, np_props);
+
+          if (musicbot.npAlt.length > 0) {
+            musicbot.npAlt.forEach(alt => {
+              musicbot.aliases.set(alt, np_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.leaveCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.leaveCmd} command.`);
+          const leave_props = {
+            name: musicbot.leaveCmd,
+            usage: null,
+            disabled: musicbot.disableLeave,
+            help: musicbot.leaveHelp,
+            aliases: musicbot.leaveAlt,
+            admin: false,
+            run: "leave"
+          };
+          musicbot.commands.set(musicbot.leaveCmd, leave_props);
+
+          if (musicbot.leaveAlt.length > 0) {
+            musicbot.leaveAlt.forEach(alt => {
+              musicbot.aliases.set(alt, leave_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.loopCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.loopCmd} command.`);
+          const loop_props = {
+            name: musicbot.loopCmd,
+            usage: null,
+            disabled: musicbot.disableLoop,
+            help: musicbot.loopHelp,
+            aliases: musicbot.loopAlt,
+            admin: false,
+            run: "loop"
+          };
+          musicbot.commands.set(musicbot.loopCmd, loop_props);
+
+          if (musicbot.loopAlt.length > 0) {
+            musicbot.loopAlt.forEach(alt => {
+              musicbot.aliases.set(alt, loop_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.setCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.setCmd} command.`);
+          const set_props = {
+            name: musicbot.setCmd,
+            usage: `${musicbot.botPrefix}${musicbot.setCmd} <setting>`,
+            disabled: musicbot.disableSet,
+            help: musicbot.setHelp,
+            aliases: musicbot.setAlt,
+            admin: false,
+            run: "set"
+          };
+          musicbot.commands.set(musicbot.setCmd, set_props);
+
+          if (musicbot.setAlt.length > 0) {
+            musicbot.setAlt.forEach(alt => {
+              musicbot.aliases.set(alt, set_props);
+            });
+          };
+
+        };
+        if (!musicbot.commands.has(musicbot.joinCmd)) {
+          if (musicbot.logging) console.log(`[MUSIC] Mapping ${musicbot.joinCmd} command.`);
+          const join_props = {
+            name: musicbot.joinCmd,
+            usage: `${musicbot.botPrefix}${musicbot.joinCmd}`,
+            disabled: musicbot.disableJoin,
+            help: musicbot.joinHelp,
+            aliases: musicbot.joinAlt,
+            admin: false,
+            run: "join"
+          };
+          musicbot.commands.set(musicbot.joinCmd, join_props);
+
+          if (musicbot.joinAlt.length > 0) {
+            musicbot.setAlt.forEach(alt => {
+              musicbot.aliases.set(alt, join_props);
+            });
+          };
+
+        };
+      } catch (e) {
+        console.error(e.stack);
+        process.exit(1);
+      };
+    
+    } catch{}};
   musicBotStart();
 
   //Set the YouTube API key.
@@ -810,34 +812,54 @@ exports.start = (client, options) => {
 
   // Catch message events.
   client.on('message', msg => {
-    const message = msg.content.trim();
+    try {
+      const message = msg.content.trim();
 
-    if (musicbot.advancedMode.enabled && musicbot.advancedMode.multiPrefix) {
-      if (musicbot.botPrefixs.has(msg.guild.id)) {
-        // Get the custom prefix.
-        const prefix = musicbot.botPrefixs.get(msg.guild.id)
-          .prefix;
-        if (!message.startsWith(prefix)) return;
-
-        // Get the command, suffix.
-        const command = message.substring(prefix.toString()
-            .length)
-          .split(/[ \n]/)[0].trim();
-        const suffix = message.substring(prefix.toString()
-            .length + command.length)
-          .trim();
-        const args = message.slice(prefix.toString()
-            .length + command.length)
-          .trim()
-          .split(/ +/g);
-
-        // Process the commands.
-        if (musicbot.commands.has(command)) {
-          let tCmd = musicbot.commands.get(command);
-          if (!tCmd.disabled) return musicbot[tCmd.run](msg, suffix, args);
-        } else if (musicbot.aliases.has(command)) {
-          let aCmd = musicbot.aliases.get(command);
-          if (!aCmd.disabled) return musicbot[aCmd.run](msg, suffix, args);
+      if (musicbot.advancedMode.enabled && musicbot.advancedMode.multiPrefix) {
+        if (musicbot.botPrefixs.has(msg.guild.id)) {
+          // Get the custom prefix.
+          const prefix = musicbot.botPrefixs.get(msg.guild.id)
+            .prefix;
+          if (!message.startsWith(prefix)) return;
+  
+          // Get the command, suffix.
+          const command = message.substring(prefix.toString()
+              .length)
+            .split(/[ \n]/)[0].trim();
+          const suffix = message.substring(prefix.toString()
+              .length + command.length)
+            .trim();
+          const args = message.slice(prefix.toString()
+              .length + command.length)
+            .trim()
+            .split(/ +/g);
+  
+          // Process the commands.
+          if (musicbot.commands.has(command)) {
+            let tCmd = musicbot.commands.get(command);
+            if (!tCmd.disabled) return musicbot[tCmd.run](msg, suffix, args);
+          } else if (musicbot.aliases.has(command)) {
+            let aCmd = musicbot.aliases.get(command);
+            if (!aCmd.disabled) return musicbot[aCmd.run](msg, suffix, args);
+          };
+        } else if (message.startsWith(musicbot.botPrefix)) {
+          // Get the command, suffix.
+          const command = message.substring(musicbot.botPrefix.length)
+            .split(/[ \n]/)[0].trim();
+          const suffix = message.substring(musicbot.botPrefix.length + command.length)
+            .trim();
+          const args = message.slice(musicbot.botPrefix.length + command.length)
+            .trim()
+            .split(/ +/g);
+  
+          // Process the commands.
+          if (musicbot.commands.has(command)) {
+            let tCmd = musicbot.commands.get(command);
+            if (!tCmd.disabled) return musicbot[tCmd.run](msg, suffix, args);
+          } else if (musicbot.aliases.has(command)) {
+            let aCmd = musicbot.aliases.get(command);
+            if (!aCmd.disabled) return musicbot[aCmd.run](msg, suffix, args);
+          };
         };
       } else if (message.startsWith(musicbot.botPrefix)) {
         // Get the command, suffix.
@@ -848,7 +870,7 @@ exports.start = (client, options) => {
         const args = message.slice(musicbot.botPrefix.length + command.length)
           .trim()
           .split(/ +/g);
-
+  
         // Process the commands.
         if (musicbot.commands.has(command)) {
           let tCmd = musicbot.commands.get(command);
@@ -857,118 +879,101 @@ exports.start = (client, options) => {
           let aCmd = musicbot.aliases.get(command);
           if (!aCmd.disabled) return musicbot[aCmd.run](msg, suffix, args);
         };
-      };
-    } else if (message.startsWith(musicbot.botPrefix)) {
-      // Get the command, suffix.
-      const command = message.substring(musicbot.botPrefix.length)
-        .split(/[ \n]/)[0].trim();
-      const suffix = message.substring(musicbot.botPrefix.length + command.length)
-        .trim();
-      const args = message.slice(musicbot.botPrefix.length + command.length)
-        .trim()
-        .split(/ +/g);
-
-      // Process the commands.
-      if (musicbot.commands.has(command)) {
-        let tCmd = musicbot.commands.get(command);
-        if (!tCmd.disabled) return musicbot[tCmd.run](msg, suffix, args);
-      } else if (musicbot.aliases.has(command)) {
-        let aCmd = musicbot.aliases.get(command);
-        if (!aCmd.disabled) return musicbot[aCmd.run](msg, suffix, args);
-      };
-    };
-  });
+      };  
+    } catch{}
+    });
 
   // Client ready event for some extra stuff.
   client.on("ready", () => {
-
-    if (musicbot.advancedMode && musicbot.advancedMode.enabled === true) {
-      if (musicbot.advancedMode && musicbot.advancedMode.multiPrefix === true) {
-        if (typeof musicbot.advancedMode.serverPrefixs === 'object') {
-          client.guilds.forEach(server => {
-            if (musicbot.advancedMode.serverPrefixs.has(server.id)) {
-              var thisServer = musicbot.advancedMode.serverPrefixs.get(server.id)
-              let props = {
-                id: server.id,
-                prefix: thisServer.prefix
+    try {
+      if (musicbot.advancedMode && musicbot.advancedMode.enabled === true) {
+        if (musicbot.advancedMode && musicbot.advancedMode.multiPrefix === true) {
+          if (typeof musicbot.advancedMode.serverPrefixs === 'object') {
+            client.guilds.forEach(server => {
+              if (musicbot.advancedMode.serverPrefixs.has(server.id)) {
+                var thisServer = musicbot.advancedMode.serverPrefixs.get(server.id)
+                let props = {
+                  id: server.id,
+                  prefix: thisServer.prefix
+                };
+                musicbot.botPrefixs.set(server.id, props);
+              } else {
+                let props = {
+                  id: server.id,
+                  prefix: musicbot.botPrefix
+                };
+                musicbot.botPrefixs.set(server.id, props);
               };
-              musicbot.botPrefixs.set(server.id, props);
-            } else {
-              let props = {
-                id: server.id,
-                prefix: musicbot.botPrefix
-              };
-              musicbot.botPrefixs.set(server.id, props);
-            };
-          });
+            });
+          };
         };
       };
-    };
-
-    if (musicbot.enableAliveMessage) {
-      setInterval(function liveMessage() {
-        if (musicbot.aliveMessage.length < 3) {
-          musicbot.aliveMessage = `----------------------------------\n${client.user.username} online since ${client.readyAt}!\n----------------------------------`;
-        } else {
-          musicbot.aliveMessage = musicbot.aliveMessage.replace(/{{username}}/g, `${client.user.username}`)
-            .replace(/{{starttime}}/g, `${client.readyAt}`);
-        }
-        console.log(musicbot.aliveMessage);
-      }, musicbot.aliveMessageTime);
-    };
-    console.log(`------- ${client.user.username} -------\n> Version: ${PACKAGE.version}\n> Extra Logging: ${musicbot.logging}.\n> Using Global Queue: ${musicbot.global}.\n> Node.js Version: ${process.version}\n------- ${client.user.username} -------`);
-    if (!musicbot.enableQueueStat) console.log(`[MUSIC] enableQueueStat is 'false'. Queue will not have a Playing/Paused indicator.`);
-
-    if (musicbot.checkQueues == true) {
-      console.warn(`[MUSIC] checkQueues is enabled.`);
-
-      musicbot.verify = (q) => {
-        return new Promise((resolve, reject) => {
-          if (!q) reject(0);
-          else if (q && q.songs == null) reject(1);
-          else if (q && q.songs.length > musicbot.maxQueueSize && musicbot.maxQueueSize !== 0) reject(1);
-          else if (q && q.songs.length < 0) reject(1);
-          else if (q && typeof q.loop !== "string") reject(2);
-          else if (q && !q.id) reject(3);
-
-          q.songs.forEach(song => {
-            if (!song.title || !song.url || !song.queuedOn || !song.requester) reject(4);
-          })
-
-          resolve("pass");
-        });
+  
+      if (musicbot.enableAliveMessage) {
+        setInterval(function liveMessage() {
+          if (musicbot.aliveMessage.length < 3) {
+            musicbot.aliveMessage = `----------------------------------\n${client.user.username} online since ${client.readyAt}!\n----------------------------------`;
+          } else {
+            musicbot.aliveMessage = musicbot.aliveMessage.replace(/{{username}}/g, `${client.user.username}`)
+              .replace(/{{starttime}}/g, `${client.readyAt}`);
+          }
+          console.log(musicbot.aliveMessage);
+        }, musicbot.aliveMessageTime);
       };
-      exports.verifyQueue = musicbot.verify;
-      setInterval(() => {
-
-        musicbot.queues.forEach(queue => {
-          musicbot.verify(queue).then((res) => {
-            if (musicbot.logging) console.log(`[Check Queues Music] Queue ${queue.id} passed verification.`);
-          }).catch((res) => {
-            if (res >= 0) {
-              let prop = {
-                songs: [],
-                last: null,
-                loop: "none",
-                id: `${queue.toString()}`
+      console.log(`------- ${client.user.username} -------\n> Version: ${PACKAGE.version}\n> Extra Logging: ${musicbot.logging}.\n> Using Global Queue: ${musicbot.global}.\n> Node.js Version: ${process.version}\n------- ${client.user.username} -------`);
+      if (!musicbot.enableQueueStat) console.log(`[MUSIC] enableQueueStat is 'false'. Queue will not have a Playing/Paused indicator.`);
+  
+      if (musicbot.checkQueues == true) {
+        console.warn(`[MUSIC] checkQueues is enabled.`);
+  
+        musicbot.verify = (q) => {
+          return new Promise((resolve, reject) => {
+            if (!q) reject(0);
+            else if (q && q.songs == null) reject(1);
+            else if (q && q.songs.length > musicbot.maxQueueSize && musicbot.maxQueueSize !== 0) reject(1);
+            else if (q && q.songs.length < 0) reject(1);
+            else if (q && typeof q.loop !== "string") reject(2);
+            else if (q && !q.id) reject(3);
+  
+            q.songs.forEach(song => {
+              if (!song.title || !song.url || !song.queuedOn || !song.requester) reject(4);
+            })
+  
+            resolve("pass");
+          });
+        };
+        exports.verifyQueue = musicbot.verify;
+        setInterval(() => {
+  
+          musicbot.queues.forEach(queue => {
+            musicbot.verify(queue).then((res) => {
+              if (musicbot.logging) console.log(`[Check Queues Music] Queue ${queue.id} passed verification.`);
+            }).catch((res) => {
+              if (res >= 0) {
+                let prop = {
+                  songs: [],
+                  last: null,
+                  loop: "none",
+                  id: `${queue.toString()}`
+                };
+                musicbot.queues.set(queue.id, prop)
               };
-              musicbot.queues.set(queue.id, prop)
-            };
-
-            try {
-              const voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == `${queue.toString()}`);
-              if (voiceConnection !== null) {
-                voiceConnection.player.dispatcher.end();
-                voiceConnection.disconnect();
+  
+              try {
+                const voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == `${queue.toString()}`);
+                if (voiceConnection !== null) {
+                  voiceConnection.player.dispatcher.end();
+                  voiceConnection.disconnect();
+                };
+              } catch (e) {
+                console.error(e);
               };
-            } catch (e) {
-              console.error(e);
-            };
+            })
           })
-        })
-      }, 3600000)
-    }
-  });
+        }, 3600000)
+      }  
+    } catch{}
+    });
 
   musicbot.updatePrefix = (server, prefix) => {
     if (musicbot && musicbot.advancedMode.enabled && musicbot.advancedMode.multiPrefix) {
