@@ -1,4 +1,4 @@
-[![npm package](https://nodei.co/npm/discord.js-musicbot-addon.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/discord.js-musicbot-addon/)  
+[![npm package](https://nodei.co/npm/discord-js-music-addon.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/discord-js-music-addon/)  
 
 This was originally an update of the original bot from [ruiqimao](https://github.com/ruiqimao/discord.js-music) by [nexu-dev](https://www.npmjs.com/package/discord.js-music-v11), but is now a updated version (again) for [Discord.js](https://discord.js.org/)'s version 11.2^. Fixes deprecated warnings, video playback issues, along with various other add-ons and tweaks to the priors. This module may be buggy and need some fine tuning. Feel free to let me know what problems you encounter by opening an issue on the repo or joining the [Discord server](https://discord.gg/FKYrX4X), where I or a `@Helper` will help you.
 
